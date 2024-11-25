@@ -3,7 +3,7 @@ pipeline {
         label 'aslave'
     }
     tools {
-        maven 'amaven' 
+        maven 'maven3' 
     }
     stages {
         stage("Test") {
