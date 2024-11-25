@@ -23,6 +23,7 @@ pipeline {
                        war: '**/*.war'
             }
         }
+        stage("Deploy on Prod") {
             steps {
                 deploy adapters: [tomcat9(credentialsId: 'tomcatprod', path: '', url: 'http://52.66.105.241:8080')], 
                        contextPath: '/ACJ', 
@@ -41,3 +42,4 @@ pipeline {
             echo "========pipeline execution failed========"
         }
     }
+}
