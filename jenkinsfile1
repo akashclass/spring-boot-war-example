@@ -1,59 +1,49 @@
-1pipeline {
+pipeline {
     agent {
-       label 'aslave'
+        label 'aslave'
     }
-     tools {
+    tools {
         maven 'amaven' 
-        }
+    }
     stages {
-        stage("Test"){
-            steps{
-                // mvn test
+        stage("Test") {
+            steps {
                 sh "mvn test"
-
-                
             }
-            
         }
-        stage("Build"){
-            steps{
+        stage("Build") {
+            steps {
                 sh "mvn package"
-                
             }
-            
         }
-        stage("Deploy on Test"){
-            steps{
-                // deploy on container -> plugin
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://52.66.105.241:8080')], contextPath: '/test', war: '**/*.war'
-              
+        stage("Deploy on Test") {
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.201.188.118:8080')], 
+                       contextPath: '/test', 
+                       war: '**/*.war'
             }
-            
         }
-        stage("Deploy on Prod"){
-             input {
+        stage("Deploy on Prod") {
+            input {
                 message "Should we continue?"
                 ok "Yes we Should"
             }
-            
-            steps{
-                // deploy on container -> plugin
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://52.66.105.241:8080')], contextPath: '/samprod', war: '**/*.war'
-
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.201.188.118:8080')], 
+                       contextPath: '/samprod', 
+                       war: '**/*.war'
             }
         }
     }
-    post{
-        always{
+    post {
+        always {
             echo "========always========"
         }
-        success{
+        success {
             echo "========pipeline executed successfully ========"
-
         }
-        failure{
+        failure {
             echo "========pipeline execution failed========"
-
         }
     }
 }
