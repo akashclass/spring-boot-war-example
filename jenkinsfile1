@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+       label 'aslave'
+    }
      tools {
         maven 'amaven' 
         }
@@ -23,7 +25,7 @@ pipeline {
         stage("Deploy on Test"){
             steps{
                 // deploy on container -> plugin
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.201.188.118:8080')], contextPath: '/test', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://52.66.105.241:8080')], contextPath: '/test', war: '**/*.war'
               
             }
             
@@ -36,7 +38,7 @@ pipeline {
             
             steps{
                 // deploy on container -> plugin
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.201.188.118:8080')], contextPath: '/samprod', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://52.66.105.241:8080')], contextPath: '/samprod', war: '**/*.war'
 
             }
         }
